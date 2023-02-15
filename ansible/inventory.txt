@@ -1,0 +1,6 @@
+[dev]
+ubuntu@ec2-54-216-211-233.eu-west-1.compute.amazonaws.com
+
+[prod]
+ubuntu@ec2-54-216-211-233.eu-west-1.compute.amazonaws.com
+
