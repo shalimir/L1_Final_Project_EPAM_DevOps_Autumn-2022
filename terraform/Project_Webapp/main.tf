@@ -30,11 +30,6 @@ module "vpc" {
   cidr-public-a = var.cidr-public-a
   cidr-private-a = var.cidr-private-a
   availability-zone-a = var.availability-zone-a
-
-  /*cidr-for-vpc-2 = var.cidr-for-vpc-2
-  cidr-public-a-2 = var.cidr-public-a-2
-  cidr-private-a-2 = var.cidr-private-a-2
-  availability-zone-a-2 = var.availability-zone-a-2*/
   anywhere-cidr = var.anywhere-cidr
 
 }
@@ -54,20 +49,6 @@ module "ec2" {
   public-subnet-a = module.vpc.public-subnet-a
   private-subnet-a = module.vpc.private-subnet-a
   security-group = module.vpc.security-group
-  /*public-subnet-a-2 = module.vpc.public-subnet-a-2
-  private-subnet-a-2 = module.vpc.private-subnet-a-2
-  security-group2 = module.vpc.security-group2*/
-
 }
 #-------------------------------------------------------
 
-
-#####################################################################################
-##                                  Docker ECS
-#####################################################################################
-
-
-module "Docker_ECS_AWS" {
-  source = "../modules/Docker_ECS_AWS"
-}
-#-------------------------------------------------------
