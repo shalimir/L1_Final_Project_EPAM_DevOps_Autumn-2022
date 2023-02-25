@@ -1,9 +1,12 @@
 # L1_Final_Project_EPAM_DevOps_Autumn-2022
 # WSGI-application
-![final_project drawio (3)](https://user-images.githubusercontent.com/123692654/219263506-20760207-3a55-4379-b1bc-8321a877e80f.png)
+![final_project drawio](https://user-images.githubusercontent.com/123692654/221325913-2baddefc-7690-4acd-b430-52313514e0b7.png)
 
 1. Create a Python Flask aplication named `web_app.py` that will give me pages about/main/user 
 `python web_app.py` - run application
+![Screenshot_1](https://user-images.githubusercontent.com/123692654/221325914-50c7d9da-343c-4a03-a3ce-bd2c4f2998b2.png)
+![Screenshot_2](https://user-images.githubusercontent.com/123692654/221325915-a0ba4034-5b06-4a89-99f8-5c47c869a443.png)
+![Screenshot_3](https://user-images.githubusercontent.com/123692654/221325917-d2c31e41-b6bd-4114-b5a5-051240316af6.png)
 
 
 ## Create Flask Tests and run them
