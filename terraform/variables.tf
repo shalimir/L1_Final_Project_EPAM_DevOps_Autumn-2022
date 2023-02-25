@@ -24,19 +24,19 @@ variable "access-key-name" {
 variable "instance_type" {
   description = "Enter Instance Type"
   type        = string
-  default     = "t3.micro" 
+  default     = "t3.small" 
 }
 
 variable "ami_jenkins" {
    description = "instance for Jenkins"
    type        = string
-   default     = "ami-05f7491af5eef733a"
+   default     = "ami-06d94a781b544c133"
 }
 
 variable "ami_ci-dev" {
    description = "for CI/QA environments"
    type        = string
-   default     = "ami-05f7491af5eef733a"
+   default     = "ami-06d94a781b544c133"
 }
 
 

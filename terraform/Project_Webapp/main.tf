@@ -5,7 +5,7 @@
 terraform {
   backend                     "s3" {
     bucket                  = "l1final--lvladymirshaly--terraform--state"
-    key                     = "dev/network/terraform.tfstate"  #name of darictory= path
+    key                     = "devBastion/network/terraform.tfstate"  #name of darictory= path
     region                  = "eu-west-1"
   }
 }

@@ -1,5 +1,5 @@
 provider "aws" {
-    region = var.region                                                          
+  region = var.region                                                          
 }
 
 #####################################################################################
@@ -9,7 +9,7 @@ provider "aws" {
 terraform {
   backend                     "s3" {
     bucket                  = "l1final--lvladymirshaly--terraform--state"
-    key                     = "dev/network/terraform.tfstate"  #name of darictory= path
+    key                     = "prod/servers/terraform.tfstate"  #name of darictory= path
     region                  = "eu-west-1"
   }
 }
@@ -159,17 +159,7 @@ resource "aws_security_group" "Security_Group" {
   tags = merge (var.commom_tags, {Name = "${var.service_name}-(Security Group)"})
 }
 
-resource "aws_ecrpublic_repository" "ecr-pets-clinic" {
-  
 
-  repository_name = "pets-clinic"
 
-  catalog_data {
-    about_text        = "About Text"
-    architectures     = ["x86-64"]
-    description       = "Description"
-    operating_systems = ["Linux"]
-    usage_text        = "pets-clinic"
-  }
-}
+
 

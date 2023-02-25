@@ -23,12 +23,12 @@ variable "access-key-name" {
 
 variable "ami-bastion" {
   description = "AWS Instance ami: "
-  default = "ami-05f7491af5eef733a"
+  default = "ami-06d94a781b544c133"
 
 }
 variable "instance-type" {
   description = "AWS Instance type: "
-  default = "t3.micro"
+  default = "t3.small"
 }
 
 
