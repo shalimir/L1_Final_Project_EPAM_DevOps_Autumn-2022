@@ -18,13 +18,6 @@ resource "aws_vpc" "vpc" {
   }
 }
 
-/*resource "aws_vpc" "vpc2" {
-  cidr_block           = var.cidr-for-vpc-2
-  enable_dns_hostnames = true
-  tags                 = {
-    Name = "vpc 2 ${var.project-name}"
-  }
-}*/
 
 #################################################################################
 #                               Private Subnets
@@ -38,14 +31,7 @@ resource "aws_subnet" "private" {
     Name = "private-A ${var.project-name}"
   }
 }
-/*resource "aws_subnet" "private2" {
-  cidr_block        = var.cidr-private-a-2
-  vpc_id            = aws_vpc.vpc2.id
-  availability_zone = var.availability-zone-a-2
-  tags              = {
-    Name = "private-A-2 ${var.project-name}"
-  }
-}*/
+
 #################################################################################
 #                               Public Subnets
 #################################################################################
@@ -58,15 +44,7 @@ resource "aws_subnet" "public" {
     Name = "public-A ${var.project-name}"
   }
 }
-/*resource "aws_subnet" "public2" {
-  cidr_block              = var.cidr-public-a-2
-  vpc_id                  = aws_vpc.vpc2.id
-  map_public_ip_on_launch = true
-  availability_zone       = var.availability-zone-a-2
-  tags                    = {
-    Name = "public-A ${var.project-name}"
-  }
-}*/
+
 #################################################################################
 #                               Internet Gateway
 #################################################################################
@@ -87,18 +65,6 @@ resource "aws_eip" "lb" {
     vpc = true
 }
 
-
-/*resource "aws_internet_gateway" "IGW2" {
-  vpc_id = aws_vpc.vpc2.id
-  tags   = {
-    Name = "internetGateway 2 ${var.project-name}"
-  }
-}
-
-resource "aws_eip" "lb2" {
-  vpc = true
-}/**/
-
 #################################################################################
 #                              Nat Gateway 
 #################################################################################
@@ -110,13 +76,7 @@ resource "aws_nat_gateway" "nat" {
     Name = "natGateway ${var.project-name}"
   }
 }
-/*resource "aws_nat_gateway" "nat2" {
-  allocation_id = aws_eip.lb2.id
-  subnet_id     = aws_subnet.public2.id
-  tags          = {
-    Name = "natGateway 2 ${var.project-name}"
-  }
-}*/
+
 
 #################################################################################
 #                                  RoutTables IGW
@@ -138,22 +98,6 @@ resource "aws_route_table" "for_public" {
     Name = "publicRouteTable ${var.project-name}"
   }
 }
-/*resource "aws_route_table" "for_public2" {
-  vpc_id = aws_vpc.vpc2.id
-
-  route {
-    cidr_block = var.anywhere-cidr
-    gateway_id = aws_internet_gateway.IGW2.id
-  }
-
-  route {
-    cidr_block = var.anywhere-cidr
-    gateway_id = aws_internet_gateway.IGW2.id
-  }
-  tags = {
-    Name = "publicRouteTable ${var.project-name}"
-  }
-}*/
 
 #################################################################################
 #                        RouteTables Association for Public
@@ -163,11 +107,6 @@ resource "aws_route_table_association" "a" {
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.for_public.id
 }
-
-/*resource "aws_route_table_association" "a2" {
-  subnet_id      = aws_subnet.public2.id
-  route_table_id = aws_route_table.for_public2.id
-}*/
 
 #################################################################################
 #                              RoutTables NAT
@@ -189,22 +128,7 @@ resource "aws_route_table" "nat_for_private" {
     Name = "privateRouteTable ${var.project-name}"
   }
 }
-/*resource "aws_route_table" "nat_for_private2" {
-  vpc_id = aws_vpc.vpc2.id
 
-  route {
-    cidr_block = var.anywhere-cidr
-    gateway_id = aws_nat_gateway.nat2.id
-  }
-
-  route {
-    cidr_block = var.anywhere-cidr
-    gateway_id = aws_nat_gateway.nat2.id
-  }
-  tags = {
-    Name = "privateRouteTable 2 ${var.project-name}"
-  }
-}*/
 
 #################################################################################
 #RouteTables Association for Private
@@ -215,10 +139,7 @@ resource "aws_route_table_association" "c" {
   route_table_id = aws_route_table.nat_for_private.id
 }
 
-/*resource "aws_route_table_association" "c2" {
-  subnet_id      = aws_subnet.private2.id
-  route_table_id = aws_route_table.nat_for_private2.id
-}*/
+
 
 #################################################################################
 #                                      ACL
@@ -259,41 +180,7 @@ resource "aws_network_acl" "acl" {
   }
 }
 
-/*resource "aws_network_acl" "acl2" {
-  vpc_id = aws_vpc.vpc2.id
 
-  ingress {
-    protocol   = "tcp"
-    rule_no    = 200
-    action     = "allow"
-    cidr_block = var.anywhere-cidr
-    from_port  = 443
-    to_port    = 443
-  }
-
-  ingress {
-    protocol   = "tcp"
-    rule_no    = 100
-    action     = "allow"
-    cidr_block = var.anywhere-cidr
-    from_port  = 80
-    to_port    = 80
-  }
-
-  ingress {
-    protocol   = "tcp"
-    rule_no    = 1
-    action     = "allow"
-    cidr_block = var.anywhere-cidr
-    from_port  = 22
-    to_port    = 22
-  }
-
-  tags = {
-    Name = "acl2"
-  }
-}
-*/
 
 #################################################################################
 #                       Security Group for Bastion
@@ -332,37 +219,5 @@ resource "aws_security_group" "bastion" {
   }
 }
 
-/*resource "aws_security_group" "bastion2" {
-  vpc_id      = aws_vpc.vpc2.id
-  name        = "bastion-host ${var.project-name}"
-  description = "ssh-http-https"
-
-  ####Inbound rules
-  ingress {
-    from_port   = -1
-    protocol    = "icmp"
-    to_port     = -1
-    cidr_blocks = [var.anywhere-cidr]
-  }
-
-  ingress {
-    from_port   = 22
-    protocol    = "tcp"
-    to_port     = 22
-    cidr_blocks = [var.anywhere-cidr]
-  }
-
-  ###Outbound rule
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = [var.anywhere-cidr]
-  }
-  tags = {
-    Name = "security terraform bastion 2 ${var.project-name}"
-  }
-}*/
-#-------------------------------------------------------
 
 

@@ -42,16 +42,3 @@ variable "security-group" {
 variable "private-subnet-a" {
   description = "Private Subnet A name"
 }
-
-/*
-#VPC 2
-variable "public-subnet-a-2" {
-  description = "Public Subnet A name"
-}
-variable "security-group2" {
-  description = "Security Group name for ec2 instance"
-}
-variable "private-subnet-a-2" {
-  description = "Private Subnet A name"
-}
-*/

@@ -49,20 +49,9 @@ resource "aws_instance" "bastion" {
   EOL
 
   tags            = {
-    Name = "jenkins_main ${var.project-name}"
+    Name = "bastion hosts ${var.project-name}"
   }
 }
-
-/*resource "aws_instance" "bastion2" {
-  ami             = var.ami-bastion
-  instance_type   = var.instance-type
-  subnet_id       = var.public-subnet-a-2
-  security_groups = [var.security-group2]
-  key_name        = var.access-key-name
-  tags            = {
-    Name = "bastion host 2 ${var.project-name}"
-  }
-}*/
 
 #####################################################################################
 #                                  Private Servers
@@ -85,18 +74,7 @@ resource "aws_instance" "private" {
   EOL
 
   tags            = {
-    Name = "webapp_private host ${var.project-name}"
+    Name = "DataBases ${var.project-name}"
   }
 }
-
-/*resource "aws_instance" "private2" {
-  ami             = var.ami-bastion
-  instance_type   = var.instance-type
-  subnet_id       = var.private-subnet-a-2
-  security_groups = [var.security-group2]
-  key_name        = var.access-key-name
-  tags            = {
-    Name = "private host 2 ${var.project-name}"
-  }
-}*/
 #-------------------------------------------------------

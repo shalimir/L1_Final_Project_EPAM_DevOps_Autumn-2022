@@ -17,26 +17,9 @@ output "instance" {
 }
 
 #####################################################################################
-#                                      VPC 2
-#####################################################################################
-
-/*output "vpc2" {
-  value = aws_vpc.vpc2.id
-}
-output "public-subnet-a-2" {
-  value = aws_subnet.public2.id
-}
-output "private-subnet-a-2" {
-  value = aws_subnet.private2.id
-}*/
-
-#####################################################################################
 #                                 Security Group
 #####################################################################################
 output "security-group" {
   value = aws_security_group.bastion.id
 }
-/*output "security-group2" {
-  value = aws_security_group.bastion2.id
-}*/
 
