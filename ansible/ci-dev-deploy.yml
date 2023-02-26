@@ -1,0 +1,5 @@
+---
+- name: CI-Dev deploy
+  hosts: CIQA
+  roles:
+    - docker_deploy

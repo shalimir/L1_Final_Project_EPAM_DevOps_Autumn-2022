@@ -1,0 +1,72 @@
+---
+- name: install jenkin's repo key
+  apt_key:
+   url:  https://pkg.jenkins.io/debian-stable/jenkins.io.key
+   state: present
+
+- name: add apt jenkins repo
+  apt_repository:
+   repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
+   state: present
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+
+- name: install openjdk-8-jre
+  apt:
+    name: ['openjdk-8-jre']
+    state: present
+
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: install openjdk-11-jre
+  apt:
+    name: ['openjdk-11-jre']
+    state: present
+
+
+- name: Install net-tools
+  apt:
+     name: net-tools
+     state: present
+
+
+- name: install jenkins
+  apt:
+    name: jenkins
+    state: present
+
+- name: Start service jenkins, if not started
+  service:
+   name: jenkins
+   state: started
+   enabled: yes
+
+- name: Wait for Jenkins to start up
+  wait_for: timeout=30
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: install AWS cli
+  pip:
+    name: awscli
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: add jenkins to group docker
+  shell:
+   cmd: usermod -a -G docker jenkins
+
+- name: Stop and Start jenkins
+  service:
+      name: jenkins
+      state: restarted
