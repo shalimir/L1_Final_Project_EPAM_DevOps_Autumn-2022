@@ -28,7 +28,7 @@ resource "tls_private_key" "ssh-key" {
 
 resource "local_file" "ssh-key-bastion" {
   content         = tls_private_key.ssh-key.private_key_pem
-  filename        = "ec2-key.pem"
+  filename        = "ec2-key-prod.pem"
   file_permission = "0600"
 }
 
@@ -40,7 +40,7 @@ resource "aws_key_pair" "key-bastion" {
 
 resource "aws_instance" "jenkins" {
     ami           = var.ami_jenkins                                          
-    instance_type = var.instance_type
+    instance_type = var.instance_type_jenkins
     key_name      = var.access-key-name                                         
     
     subnet_id              = aws_subnet.publicsubnets.id
@@ -54,7 +54,7 @@ resource "aws_instance" "jenkins" {
 
 resource "aws_instance" "ci-dev" {
     ami           = var.ami_ci-dev                                                 
-    instance_type = var.instance_type                                             
+    instance_type = var.instance_type_ci_dev                                            
     key_name      = var.access-key-name
 
     subnet_id              = aws_subnet.publicsubnets.id
@@ -68,9 +68,11 @@ resource "aws_instance" "ci-dev" {
 }
 
 
+#####################################################################################
+#                                     Create the VPC
+#####################################################################################
 
-# --------------------------------------------------------------------
-# Create the VPC
+
  resource "aws_vpc" "Main" {
 
   cidr_block       = var.main_vpc_cidr
@@ -84,7 +86,13 @@ resource "aws_instance" "ci-dev" {
   }
 }
 
-# Create Internet Gateway and attach it to VPC
+
+
+#####################################################################################
+#                 Create Internet Gateway and attach it to VPC
+#####################################################################################
+
+
 resource "aws_internet_gateway" "IGW" {    # Creating Internet Gateway
   vpc_id =  aws_vpc.Main.id               # vpc_id will be generated after we create VPC
   
@@ -93,7 +101,10 @@ resource "aws_internet_gateway" "IGW" {    # Creating Internet Gateway
   }
 }
 
-# Create a Public Subnets.
+#####################################################################################
+#                                Create a Public Subnets
+#####################################################################################
+
 resource "aws_subnet" "publicsubnets" {    # Creating Public Subnets
   vpc_id =  aws_vpc.Main.id
   cidr_block = var.main_publicsubnets_cidr       # CIDR block of public subnets
@@ -103,7 +114,12 @@ resource "aws_subnet" "publicsubnets" {    # Creating Public Subnets
   }
 }
 
-# Route table for Public Subnet
+
+#####################################################################################
+#                          Route table for Public Subnets
+#####################################################################################
+
+
 resource "aws_route_table" "PublicRT" {    # Creating RT for Public Subnet
   vpc_id =  aws_vpc.Main.id
     
@@ -116,15 +132,22 @@ resource "aws_route_table" "PublicRT" {    # Creating RT for Public Subnet
     Name = "${var.service_name}-(Route table for Public Subnet)"
   }
 }
- 
-# Route table Association with Public Subnet
+
+
+#####################################################################################
+#                      Route table Association with Public Subnet
+#####################################################################################
+
 resource "aws_route_table_association" "PublicRTassociation" {
   subnet_id = aws_subnet.publicsubnets.id
   route_table_id = aws_route_table.PublicRT.id
 } 
 
-# --------------------------------------------------------------------
-# Security Group
+
+#####################################################################################
+#                                Security Group
+#####################################################################################
+
 resource "aws_security_group" "Security_Group" {
   name = "${var.service_name}-(Security_Group)"
   vpc_id = aws_vpc.Main.id

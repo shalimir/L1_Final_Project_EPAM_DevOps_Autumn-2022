@@ -20,7 +20,7 @@ resource "tls_private_key" "ssh-key" {
 
 resource "local_file" "ssh-key-bastion" {
   content         = tls_private_key.ssh-key.private_key_pem
-  filename        = "ec2-key.pem"
+  filename        = "ec2-key-dev.pem"
   file_permission = "0600"
 }
 
@@ -35,7 +35,7 @@ resource "aws_key_pair" "key-bastion" {
 
 resource "aws_instance" "bastion" {
   ami             = var.ami-bastion
-  instance_type   = var.instance-type
+  instance_type = var.instance-type
   subnet_id       = var.public-subnet-a
   security_groups = [var.security-group]
   key_name        = var.access-key-name

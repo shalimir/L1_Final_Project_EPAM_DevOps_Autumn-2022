@@ -1,4 +1,8 @@
-# aws_instance.jenkins
+#####################################################################################
+#                                   aws_instance.jenkins
+#####################################################################################
+
+
 output "jenkins_ami_jenkins" {
   value = aws_instance.jenkins.ami
 }
@@ -27,8 +31,12 @@ output "jenkins_tags_all" {
   value = aws_instance.jenkins.tags_all
 }
 
-# --------------------------------------------------------------------
-# aws_instance.ci-dev
+
+#####################################################################################
+#                                   aws_instance.ci-dev
+#####################################################################################
+
+
 output "ci-dev_ami" {
   value = aws_instance.ci-dev.ami
 }
@@ -57,10 +65,11 @@ output "ci-dev_tags_all" {
   value = aws_instance.ci-dev.tags_all
 }
 
-# --------------------------------------------------------------------
+#####################################################################################
+#                                   aws_internet_gateway.IGW
+#####################################################################################
 
-# --------------------------------------------------------------------
-# aws_internet_gateway.IGW:
+
 output "AWS_Internet_Gateway" {
   value = aws_internet_gateway.IGW.id
 }
@@ -73,8 +82,12 @@ output "AWS_Internet_Gateway_tags_all" {
   value = aws_internet_gateway.IGW.tags_all
 }
 
-# --------------------------------------------------------------------
-# aws_security_group.Security_Group:
+
+#####################################################################################
+#                                   aws_security_group.Security_Group
+#####################################################################################
+
+
 output "Security_Group_arn" {
   value = aws_security_group.Security_Group.arn
 }
