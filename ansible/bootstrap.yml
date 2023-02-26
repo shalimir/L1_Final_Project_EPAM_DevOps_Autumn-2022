@@ -1,0 +1,14 @@
+---
+- name: Jenkins bootstrap
+  hosts: prod
+  become: yes
+  roles:
+  - common
+  - docker_install
+  - jenkins_install
+
+- name: CI-Dev bootstrap
+  hosts: CIQA
+  roles:
+  - common
+  - docker_install

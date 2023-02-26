@@ -1,0 +1,6 @@
+---
+- name: build/push docker image
+  hosts: prod
+  become: false
+  roles:
+    - docker_build_push

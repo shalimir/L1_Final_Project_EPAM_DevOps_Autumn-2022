@@ -1,0 +1,12 @@
+# !!! hosts !!!
+
+[prod]
+#ip-192-168-11-10    ansible_hosts=54.217.163.192 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/.ssh/ec2-key-prod.pem
+ubuntu@ec2-34-242-29-187.eu-west-1.compute.amazonaws.com
+
+[CIQA]
+#ip-192-168-11-11    ansible_hosts=192.168.11.11 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/.ssh/ec2-key-prod.pem
+ubuntu@ec2-34-242-144-184.eu-west-1.compute.amazonaws.com
+
+[db]
+ip-192-168-2-154     ansible_hosts=192.168.2.154 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/.ssh/ec2-key-dev.pem

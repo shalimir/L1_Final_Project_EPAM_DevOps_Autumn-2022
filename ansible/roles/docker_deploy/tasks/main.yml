@@ -1,0 +1,7 @@
+---
+- name: deploy
+  docker_container:
+    name: "pets-clinic-{{ env | default('ci') }}"
+    image: "{{ docker_registry }}:{{ tag | default('latest') }}"
+    ports:
+    - "{{ host_port | default(80) }}:8080"

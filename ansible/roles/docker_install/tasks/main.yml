@@ -1,0 +1,33 @@
+---
+- name: install key GPG for docker
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: add docker repo
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+    state: present
+
+- name: install pip
+  apt:
+    name: python3-pip
+    state: present
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: install docker
+  apt:
+    name: docker-ce
+    state: present
+
+- name: add user ubuntu to group docker
+  shell:
+    cmd: usermod -a -G docker ubuntu
+
+
+- name: install Python docker module
+  pip:
+    name: docker
