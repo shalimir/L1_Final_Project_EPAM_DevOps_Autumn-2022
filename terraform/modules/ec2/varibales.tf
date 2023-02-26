@@ -25,6 +25,7 @@ variable "ami-bastion" {
 variable "instance-type" {
   description = "AWS Instance type: "
 }
+
 variable "access-key-name" {
   description = "Name for instance access key"
 }

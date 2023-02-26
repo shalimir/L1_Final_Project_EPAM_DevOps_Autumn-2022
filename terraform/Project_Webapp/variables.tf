@@ -4,7 +4,7 @@
 
 variable "project-name" {
   description = "Name of Project"
-  default = "AWS"
+  default = "prod-Final Project (L1 EPAM)"
 }
 
 #Credentials
@@ -17,7 +17,7 @@ variable "region" {
 #EC2 Key
 variable "access-key-name" {
   description = "AWS ec2 key name: "
-  default = "ec2-key"
+  default = "ec2-key-dev.pem"
 }
 
 
@@ -28,8 +28,9 @@ variable "ami-bastion" {
 }
 variable "instance-type" {
   description = "AWS Instance type: "
-  default = "t3.small"
+  default = "t3.xlarge"
 }
+
 
 
 

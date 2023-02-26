@@ -16,16 +16,22 @@ variable "region" {
 
 variable "access-key-name" {
   description = "AWS ec2 key name: "
-  default = "ec2-key"
+  default = "ec2-key-prod.pem"
 }
 
 
 
-variable "instance_type" {
+variable "instance_type_jenkins" {
   description = "Enter Instance Type"
   type        = string
-  default     = "t3.small" 
+  default     = "c5ad.2xlarge"  # 8 vCPU 16 GiB Memory +1*300 NVMe SSD
 }
+variable "instance_type_ci_dev" {
+  description = "Enter Instance Type"
+  type        = string
+  default     = "t3.xlarge" # 4 vCPU 16 GiB Memory
+}
+
 
 variable "ami_jenkins" {
    description = "instance for Jenkins"
@@ -98,7 +104,7 @@ variable "commom_tags" {
   default     = {
     Name    = "Final Project"
     Owner   = "DevOps Student"
-    Project = "Final Project (L1 EPAM)"
+    Project = "prod-Final Project (L1 EPAM)"
   }
 }
 
