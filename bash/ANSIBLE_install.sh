@@ -11,6 +11,7 @@ echo "================================Install ANSIBLE===========================
 echo "###################################################################################################"
 sudo apt update -y
     sudo apt install ansible -y
+sudo apt install python3-pip
 pip install boto3
 
 echo "###################################################################################################"
@@ -37,15 +38,21 @@ cat << EOF > hosts
 # !!! hosts !!!
 
 [prod]
-ip-10-0-2-191    ansible_hosts=10.0.2.191 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/.ssh/ec2-key.pem
+#ip-192-168-11-10    ansible_hosts=54.217.163.192 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/.ssh/ec2-key-prod.pem
+ubuntu@ec2-34-242-29-187.eu-west-1.compute.amazonaws.com
+
+[CIQA]
+#ip-192-168-11-11    ansible_hosts=192.168.11.11 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/.ssh/ec2-key-prod.pem
+ubuntu@ec2-34-242-144-184.eu-west-1.compute.amazonaws.com
 
 [db]
-ip-10-0-2-64     ansible_hosts=10.0.2.64 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/.ssh/ec2-key.pem
+ip-192-168-2-154     ansible_hosts=192.168.2.154 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/.ssh/ec2-key-dev.pem
 EOF
 
 echo "###################################################################################################"
 echo "================================           ansible.cfg       ======================================"
 echo "###################################################################################################"
+
     cd /
     cd /home/ubuntu/ansible
     ansible-galaxy install geerlingguy.mysql  -p roles
@@ -54,7 +61,7 @@ echo
 #!!! ansible.cfg  !!!
 [defaults]
 host_key_checking = false
-inventory = /hosts.txt
+inventory = /home/ubuntu/ansible/hosts
 EOF
 
 
