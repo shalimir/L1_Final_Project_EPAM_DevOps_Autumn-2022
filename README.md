@@ -42,7 +42,7 @@ Pipeline job to deploy specific image to QA
 ### GitHub 
 as application source repository
 
-### 1.Python Flask 
+# 1.Python Flask 
 framework for creating web application
 
 
@@ -85,14 +85,15 @@ registry on `https://hub.docker.com/`
 - next `docker run -it -p 5000:5000 shalimir/webapp:v0.1.0` - run docker
 
 # 2.Terraform
-![Screenshot_1](https://user-images.githubusercontent.com/123692654/221325914-50c7d9da-343c-4a03-a3ce-bd2c4f2998b2.png)
+![Screenshot_29](https://user-images.githubusercontent.com/123692654/221404168-20eb0cba-225a-4dee-9417-9000b1119615.png)
 
-# 1 AWS Credentials Setup 
+
+## 2.1 AWS Credentials Setup 
 Create Terraform_AWS_Final_L1 users and gives you AdministratorAccess 
 ![Screenshot_316](https://user-images.githubusercontent.com/123692654/216515594-181801f0-a8ce-4fdc-9acd-697949d35f61.png)
 ![Screenshot_317](https://user-images.githubusercontent.com/123692654/216515597-2b89a942-6f12-4854-b2cd-80c33e7b4fa0.png)
 
-# 1.2 Install Terraform on VM shaly@vladymir
+## 2.2 Install Terraform on VM shaly@vladymir
 
 ```
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
@@ -105,9 +106,9 @@ terraform version
 ```
 ![1 1](https://user-images.githubusercontent.com/123692654/216516239-7d30dd85-fdf9-4ba7-ae93-3de0f4e65025.jpg)
 
-# 2. Terraform. First steps
+
  
-#2.1 Create project folder and main.tf file
+## 2.3 Create project folder and main.tf file
 Add exception to .gitingnore file:
 ```Terraform/main.tf```
 Run in this folder [Terraform/main] with command: ```terraform init```
@@ -225,6 +226,7 @@ echo "##########################################################################
 
 ![Screenshot_2](https://user-images.githubusercontent.com/123692654/221325915-a0ba4034-5b06-4a89-99f8-5c47c869a443.png)
 ![Screenshot_3](https://user-images.githubusercontent.com/123692654/221325917-d2c31e41-b6bd-4114-b5a5-051240316af6.png)
+![Screenshot_30](https://user-images.githubusercontent.com/123692654/221404578-3d247f1a-018c-4948-9f73-725331dcd186.png)
 
 
 ## 3.1 Setting Up the Inventory File
@@ -259,7 +261,7 @@ Above command will download the role of mysql inside the roles directory. Roles 
 ![Screenshot_8](https://user-images.githubusercontent.com/123692654/221356875-578e41e9-a32a-4411-9f0a-da441ae7d5b6.png)
 
 
-### ansible-playbook mysql.yaml -i hosts
+# ```ansible-playbook mysql.yaml -i hosts```
 ![db_ansible1](https://user-images.githubusercontent.com/123692654/221356923-2db7a1a2-1d53-4b71-b795-9f4c2a65a456.png)
 ![db_ansible2](https://user-images.githubusercontent.com/123692654/221356924-da9067bf-80ea-403f-86db-d99ce15141ad.png)
 ![db_ansible3](https://user-images.githubusercontent.com/123692654/221356925-0de0edbf-3745-4c37-ad48-1304405b662e.png)
@@ -275,7 +277,7 @@ Above command will download the role of mysql inside the roles directory. Roles 
 ![Screenshot_10](https://user-images.githubusercontent.com/123692654/221357102-d4f07678-1737-466b-977a-e39d8f1e71d5.png)
 
 
-### create text_database
+## create text_database
 ![Screenshot_12](https://user-images.githubusercontent.com/123692654/221357242-37d0e053-edbb-4c3b-948c-b81d12311073.png)
 
 ```
@@ -284,7 +286,7 @@ https://raw.githubusercontent.com/shalimir/L1_Final_Project_EPAM_DevOps_Autumn-2
 ![Screenshot_13](https://user-images.githubusercontent.com/123692654/221357302-1ff9695d-e743-4955-a3fc-af9db03cee50.png)
 
 
-### Add data (trackizer database) to MySQL (.yml)
+## Add data (trackizer database) to MySQL (.yml)
 
 ```nano mysql-insertDB.yaml```
 ![Screenshot_11](https://user-images.githubusercontent.com/123692654/221357164-3300384f-c5d4-4f78-b650-01f992287281.png)
@@ -296,36 +298,173 @@ https://raw.githubusercontent.com/shalimir/L1_Final_Project_EPAM_DevOps_Autumn-2
 ![db_insert4](https://user-images.githubusercontent.com/123692654/221357389-e2e910fa-ee38-4758-96d9-8df499e959bd.png)
 
 
-## 3.3 Install Docker/Jenkins for prod ans install Docker for CI-Dev.
+# 3.3 Install Docker/Jenkins for prod ans install Docker for CI-Dev.
 
 ```nano bootstrap.yml```
 ![Screenshot_14](https://user-images.githubusercontent.com/123692654/221357668-8e586f89-7c6b-4e60-9265-cf7631b6df65.png)
+```
+---
+- name: Jenkins bootstrap
+  hosts: prod
+  become: yes
+  roles:
+  - common
+  - docker_install
+  - jenkins_install
 
-### (jenkins_install)
+- name: CI-Dev bootstrap
+  hosts: CIQA
+  roles:
+  - common
+  - docker_install
+
+
+```
+
+## (jenkins_install)
 ```cd ~/ansible/roles/jenkins_install/tasks```
 ![Screenshot_15](https://user-images.githubusercontent.com/123692654/221357892-1155d8e9-a97f-47c4-838c-2a0622632d71.png)
 
-``` nano main.yaml ``` (jenkins_install)
-![Screenshot_16](https://user-images.githubusercontent.com/123692654/221357950-431cbb56-e3d4-45a0-b518-460f242ad937.png)
+```nano roles/jenkins_install/tasks/main.yml ``` (jenkins_install)
+![Screenshot_35](https://user-images.githubusercontent.com/123692654/221415505-203d0d82-1878-4a3f-9b53-c04de98a8ac5.png)
+![Screenshot_36](https://user-images.githubusercontent.com/123692654/221415503-58995065-f34f-4646-9dd8-bff8fce6a131.png)
 
-### (docker_install)
+
+```
+---
+- name: install jenkin's repo key
+  apt_key:
+   url:  https://pkg.jenkins.io/debian-stable/jenkins.io.key
+   state: present
+
+- name: add apt jenkins repo
+  apt_repository:
+   repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
+   state: present
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+
+- name: install openjdk-8-jre
+  apt:
+    name: ['openjdk-8-jre']
+    state: present
+
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: install openjdk-11-jre
+  apt:
+    name: ['openjdk-11-jre']
+    state: present
+
+
+- name: Install net-tools
+  apt:
+     name: net-tools
+     state: present
+
+
+- name: install jenkins
+  apt:
+    name: jenkins
+    state: present
+
+- name: Start service jenkins, if not started
+  service:
+   name: jenkins
+   state: started
+   enabled: yes
+
+- name: Wait for Jenkins to start up
+  wait_for: timeout=30
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: install AWS cli
+  pip:
+    name: awscli
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: add jenkins to group docker
+  shell:
+   cmd: usermod -a -G docker jenkins
+
+- name: Stop and Start jenkins
+  service:
+      name: jenkins
+      state: restarted
+
+```
+
+
+## (docker_install)
 
 ```cd ~/ansible/roles/docker_install/tasks```
 ![Screenshot_17](https://user-images.githubusercontent.com/123692654/221358031-66a2ca05-6372-4c13-99f1-f20268c849d8.png)
 
-``` nano main.yaml ``` (docker_install)
-![Screenshot_18](https://user-images.githubusercontent.com/123692654/221358075-4ba16790-fad1-4c9b-ae0b-bdcdbbf2c559.png)
+``` nano roles/docker_install/tasks/main.yml ``` (docker_install)
+![Screenshot_34](https://user-images.githubusercontent.com/123692654/221415445-29cb14f0-777f-4bdc-9251-bb1a9330e45b.png)
+
+```
+---
+- name: install key GPG for docker
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: add docker repo
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+    state: present
+
+- name: install pip
+  apt:
+    name: python3-pip
+    state: present
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: install docker
+  apt:
+    name: docker-ce
+    state: present
+
+- name: add user ubuntu to group docker
+  shell:
+    cmd: usermod -a -G docker ubuntu
 
 
+- name: install Python docker module
+  pip:
+    name: docker
 
 
-### ```ansible-playbook bootstrap.yml -i hosts -u ubuntu -b```
+```
 
-![Screenshot_20](https://user-images.githubusercontent.com/123692654/221360341-cba88323-bd11-4187-b1da-cec560167387.png)
+## Install Docker/Jenkins on Jenkins and CI/Dev instances:
+# ```ansible-playbook bootstrap.yml -i hosts -u ubuntu -b``` 
 
-thirdly I have these problems:
+
+![Screenshot_31](https://user-images.githubusercontent.com/123692654/221414706-1b9498cf-23bf-461e-a484-1b973eb427cb.png)
+
+
+ # I have these problems:
 
 - Firstly, I forget to fill ansible-playbook pip-install
+
+
 - Secondly, ```E:Malformed entry 1 in list file /etc/apt/sources.list.d/pkg_jenkins_io_debian_stable.list (absolute Suite Component), E:The list of sources could not be read."```
 I removed these file pkg_jenkins_io_debian_stable.list
 
@@ -333,27 +472,94 @@ I removed these file pkg_jenkins_io_debian_stable.list
 
 ![Screenshot_22](https://user-images.githubusercontent.com/123692654/221361826-09da84dc-929b-475e-b9c0-95ae3d2a1a11.png)
 ![Screenshot_21](https://user-images.githubusercontent.com/123692654/221361828-963c14e4-fb1e-424a-8c59-206bbdc4c580.png)
+
+
+
 - Thirdly, I changed roles/jenkins_install/tasks/main.yaml
 ![Screenshot_23](https://user-images.githubusercontent.com/123692654/221361967-49757d9b-a0ee-491d-9104-fb9b149a5e1a.png)
 
-I changed roles/docker_install/tasks/main.yaml
+
+
+
+- Fourthly, I changed roles/docker_install/tasks/main.yaml
 ![Screenshot_24](https://user-images.githubusercontent.com/123692654/221362073-1545f7fc-932e-4636-b14b-f7edb6ccb1f2.png)
 
-![Screenshot_25](https://user-images.githubusercontent.com/123692654/221364175-6e91013c-88f9-4ba6-831c-03daa87b861e.png)
 
 
-## Build/push Docker image
-```ansible-playbook ci-dev-build-push.yml -i hosts -u ubuntu -e tag=v0.1.0 -e host_port=81 -e env=ci```
+- Fifthly, problem in installing Jenkins: Sub-process /usr/bin/dpkg
+![Screenshot_32](https://user-images.githubusercontent.com/123692654/221415040-42c732a9-065f-4d62-98ea-0cbf0260bbc7.png)
 
-```ansible-playbook ci-dev-deploy.yml -i hosts -u ubuntu -e tag=v0.1.0 -e host_port=80 -e env=qa```
+Jenkins requires Java in order to run, yet certain distributions don’t include this by default and some Java versions are incompatible with Jenkins.
+I added :```nano roles/jenkins_install/tasks/main.yml```
+![Screenshot_33](https://user-images.githubusercontent.com/123692654/221415129-97c6e71e-13cf-4221-8baa-1ab9e41298e4.png)
 
-![Screenshot_26](https://user-images.githubusercontent.com/123692654/221377615-99d8d00f-dd16-4bd9-951a-bc56d63a0367.png)
-![Screenshot_27](https://user-images.githubusercontent.com/123692654/221377618-6d36f0fa-d5f3-479b-8fd3-d57e350e6d76.png)
+# 3.4 Build/push Docker image
+## Prod_server
+- Entering to aws configure && docker login
+- Retrieve an authentication token and authenticate your Docker client to your registry.
+Use the AWS CLI: 
+```
+aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/h5g5k2t2
+```
+- Create WORKSPACE:
+```mkdir webapp```
+Create simple Dockerfile:
 
-![Screenshot_28](https://user-images.githubusercontent.com/123692654/221377682-3e7db8f2-2cb8-4489-9746-227e278718eb.png)
+```
+FROM alpine:3.5
+
+RUN apk add --update py2-pip
+COPY requirements.txt /home/ubuntu/webapp/
+RUN pip install --no-cache-dir -r /home/ubuntu/webapp/requirements.txt
+COPY *.py /home/ubuntu/webapp/
+EXPOSE 5000
+CMD ["python", "/home/ubuntu/webapp/web_app.py"]
+
+
+```
+
+## In Main_Ansible *(Bastion Host) fill path to WORKSPACE:
+![Screenshot_41](https://user-images.githubusercontent.com/123692654/221417632-4c63c282-d17d-4e11-a200-67ed73d8d600.png)
+![Screenshot_42](https://user-images.githubusercontent.com/123692654/221417631-f0fb761c-6765-4a64-a745-d6a3d7ad37c9.png)
+
+
+
+![Screenshot_40](https://user-images.githubusercontent.com/123692654/221417406-1eeb3974-981c-4fbb-8958-c0a811e96ad1.png)
+
+![Screenshot_38](https://user-images.githubusercontent.com/123692654/221416704-f228186d-33f2-4ab4-936c-2e8bd861f518.png)
+
+## Build/push Docker image:
+# ```ansible-playbook ci-dev-build-push.yml -i hosts -u ubuntu -e tag=v0.1.0 ``` 
+
+![Screenshot_43](https://user-images.githubusercontent.com/123692654/221418161-446f1cb0-c82d-4305-a335-3ece7ed7ab96.png)
+
+![Screenshot_44](https://user-images.githubusercontent.com/123692654/221418383-2774fd02-97ee-4b44-8e6c-20389112bafa.png)
+
+
+## Run (deploy) container:
+In Main_Ansible *(Bastion Host) fill path to WORKSPACE:
+```nano ci-dev-deploy.yml```
+![Screenshot_45](https://user-images.githubusercontent.com/123692654/221418759-bcf167fe-b78e-4f6d-978e-5b7c29461add.png)
+
+
+```nano roles/docker_deploy/tasks/main.yml```
+![Screenshot_46](https://user-images.githubusercontent.com/123692654/221418830-8507ac40-2e3d-441a-8f1c-a265cc9b6391.png)
+
+## Run (deploy) container:ENV=CI
+# ```ansible-playbook ci-dev-deploy.yml -i hosts -u ubuntu -e tag=v0.1.0 -e host_port=81 -e env=ci```
+![Screenshot_47](https://user-images.githubusercontent.com/123692654/221419327-f84c5fc6-728b-48ef-add0-07ce2fd5679e.png)
+![Screenshot_48](https://user-images.githubusercontent.com/123692654/221419324-33287ab6-3ded-4c62-ad22-929b723f752d.png)
+
+
+## Run (deploy) container:ENV=QA
+# ```ansible-playbook ci-dev-deploy.yml -i hosts -u ubuntu -e tag=v0.1.0 -e host_port=80 -e env=qa```
+![Screenshot_49](https://user-images.githubusercontent.com/123692654/221419479-84d14424-1b1c-475a-b300-cf96a9459070.png)
+![Screenshot_50](https://user-images.githubusercontent.com/123692654/221419477-85b40396-1e07-4d34-98a9-84e32c85dc46.png)
 
 
 # Jenkins
 There are two jobs in Jenkins. 
 The first - multibranch pipeline job to build/push and run container on CI env, triggered by Github webhook on push/PR (Jenkinsfile). 
 The second - parameterized pipeline job which deploys image with tag specified as parameter to QA env (Jenkinsfile).
+
+
