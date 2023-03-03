@@ -1,6 +1,6 @@
 # L1_Final_Project_EPAM_DevOps_Autumn-2022
 # WSGI-application
-![final_project drawio](https://user-images.githubusercontent.com/123692654/221325913-2baddefc-7690-4acd-b430-52313514e0b7.png)
+![final_project drawio](https://user-images.githubusercontent.com/123692654/222716439-503ddf40-9afe-4e01-9b13-4e4476b9a750.png)
 
 # Stack
 
@@ -562,4 +562,11 @@ There are two jobs in Jenkins.
 The first - multibranch pipeline job to build/push and run container on CI env, triggered by Github webhook on push/PR (Jenkinsfile). 
 The second - parameterized pipeline job which deploys image with tag specified as parameter to QA env (Jenkinsfile).
 
+```sudo su jenkins
 
+cd /var/lib/jenkins/
+mkdir .ssh
+cd .ssh
+
+ssh-keygen
+```
