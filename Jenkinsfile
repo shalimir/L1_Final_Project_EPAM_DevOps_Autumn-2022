@@ -1,41 +1,30 @@
 pipeline {
     agent any
-
     stages {
-        stage('Test') {
+        stage('build/push docker image') {
+            when {
+                branch pattern: "PR-.*|develop|master", comparator: "REGEXP"
+            }
             steps {
-                sh 'pip install -r requirements.txt'
-                sh '/var/lib/jenkins/.local/bin/pytest -v'
-                
+                ansiblePlaybook(
+                playbook: 'ansible/ci-dev-build-push.yml',
+                extras: '-e tag=$GIT_COMMIT')
             }
         }
-        stage('Build_docker_image') {
+
+        stage('CI env deploy') {
+            when {
+                branch pattern: "develop|master", comparator: "REGEXP"
+            }
             steps {
-                sh 'docker build -f Dockerfile -t shalimir/app:$GIT_COMMIT .'
-                
+                ansiblePlaybook(
+                playbook: 'ansible/ci-dev-deploy.yml',
+                inventory: 'ansible/inventory.txt',
+                disableHostKeyChecking: true,
+                credentialsId: '097c41ec-1f22-49bf-8245-f22e3c88e014',
+                extras: '-e tag=$GIT_COMMIT -e host_port=81 -e env=ci')
             }
         }
-        stage('Push_docker_image') {
-            steps {
-                withDockerRegistry(credentialsId: 'dockerhub_cred_jenkins', url: 'https://index.docker.io/v1/'){
-                    sh '''
-                        docker push shalimir/app:$GIT_COMMIT
-                    '''
-                }    
-                
-            }
-        }
-        stage('RunContainer on webapp server') {
-            steps {
-                script {
-                  def dockerStop = "docker rm -f app"
-                  def dockerRun = "docker run -p 80:5000 -d --name app shalimir/app:$GIT_COMMIT"
-                  sshagent(['webapp-server']) {
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@10.0.1.183 '${dockerStop}'"
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@10.0.2.38 '${dockerRun}'"
-                  } 
-                } 
-            }               
-        }
+
     }
 }
