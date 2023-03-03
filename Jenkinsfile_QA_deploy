@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'DockerTag', description: 'Docker tag to deploy on QA')
+    }
+    stages {
+        stage('QA deploy') {
+            steps {
+                echo "QA deploy ${params.DockerTag}"
+
+                ansiblePlaybook(
+                playbook: 'ansible/ci-dev-deploy.yml',
+                inventory: 'ansible/inventory.txt',
+                disableHostKeyChecking: true,
+                credentialsId: '1bea4368-c8d3-43e5-adba-89119d7e195f',
+                extras: "-e tag=${params.DockerTag} -e host_port=80 -e env=qa")
+
+            }
+        }
+    }
+} 
